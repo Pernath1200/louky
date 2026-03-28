@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+*.local
+
+# Logs / cache
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.cache
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# Env (keep secrets out of git)
+.env
+.env.*
+!.env.example
+
+# Test / coverage
+coverage

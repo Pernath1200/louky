@@ -1,23 +1,27 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Louky from './louky'
+import { Layout } from './louky/components/Layout'
+import { BuilderScreen } from './louky/screens/BuilderScreen'
+import { DrillScreen } from './louky/screens/DrillScreen'
+import { HubScreen } from './louky/screens/HubScreen'
+
+/** URL prefix for this feature (no trailing slash). Must match Vite `base` on GitHub Pages. */
+const LOUKY_BASE = '/louky'
 
 /**
- * Louky host wiring
- *
- * - Wrap the tree in `<BrowserRouter>` (or your existing router).
- * - Mount the module at a splat route: `path="louky/*"` → `<Louky basePath="/louky" />`.
- * - `basePath` must match the URL prefix (no trailing slash).
- * - To embed under another path, e.g. `/study/louky`, use:
- *   `<Route path="study/louky/*" element={<Louky basePath="/study/louky" />} />`
- *
- * Full spreadsheet / CSV data: see comments in `src/louky/wordPartsData.ts`.
+ * Louky routes live in this single `<Routes>` tree. Nesting another `<Routes>` under
+ * `louky/*` with `path="/louky"` breaks matching in React Router v7 (blank UI).
  */
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/louky/hub" replace />} />
-        <Route path="louky/*" element={<Louky basePath="/louky" />} />
+        <Route path="/" element={<Navigate to={`${LOUKY_BASE}/hub`} replace />} />
+        <Route path="louky" element={<Layout basePath={LOUKY_BASE} />}>
+          <Route index element={<Navigate to="hub" replace />} />
+          <Route path="hub" element={<HubScreen />} />
+          <Route path="drill" element={<DrillScreen />} />
+          <Route path="builder" element={<BuilderScreen />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
